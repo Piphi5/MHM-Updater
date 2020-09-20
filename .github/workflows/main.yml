@@ -5,7 +5,8 @@ name: Update Data
 # Controls when the action will run. Triggers the workflow once every day at 14:00 UTC
 on:
   schedule:
-    - cron: '*/2 * * * *'
+    - cron: '0 0 * * *'
+  
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -26,11 +27,18 @@ jobs:
         pip install -r requirements.txt
     - name: Run Code
       run: python updater.py
-    - name: Update Data 
+    
+    - name: Update Repo
       run: |
-        cd MHM-Data
-        git config --global user.name "github-actions[bot]"
-        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        rm target -rf
+        git config --global user.email "mateus.sakata@gmail.com"
+        git config --global user.name "Piphi5"
+        git clone https://.:${{secrets.TOKEN }}@github.com/Piphi5/MHM-Data target
+        git fetch --unshallow target
+        cp Data/* target
+        cd target
         git add .
-        git commit -m "Automated Data Commit"
-        git push
+        git commit -m "Automatic Update"
+        git push origin master --force
+        
+    
