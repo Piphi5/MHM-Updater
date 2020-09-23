@@ -61,6 +61,12 @@ clean_df = df[~suspect_mask].dropna(how = "all")
 vectorized_int = np.vectorize(to_int)
 clean_df["mosquitohabitatmapperLarvaeCount"] = vectorized_int(clean_df["mosquitohabitatmapperLarvaeCount"].fillna(0).values)
 clean_df = clean_df[clean_df["mosquitohabitatmapperLarvaeCount"] < anomaly_threshold]
+
+# create directory:
+if not os.path.exists("Data"):
+    os.mkdir("Data")
+
+# write to file
 clean_df.to_csv("Data/Clean Data.csv")
 
 with open("Data/status.txt", "w+") as file:

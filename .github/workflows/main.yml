@@ -40,5 +40,6 @@ jobs:
         git add .
         git commit -m "Automatic Update"
         git push origin master --force
+        rm target -rf
         
     
